@@ -1,5 +1,5 @@
 name: create-repo
-on: 
+on:
   workflow_dispatch:
     inputs:
       prefix:
@@ -24,5 +24,20 @@ jobs:
         run: |
           echo ${{ secrets.PERSONAL_ACCESS_TOKEN }} | gh auth login --with-token
       - name: create-repo
+        id: create-repo
         run: |
           gh repo create seunggi-action/${{ inputs.prefix }}-${{ inputs.name }} --public --add-readme
+      - name: slack
+        if: always()
+        uses: slackapi/slack-github-action@v4.0.0
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            text: |
+              *GitHub 저장소 생성 결과*
+              전체 작업: `${{ job.status }}`
+              저장소 생성: `${{ steps.create-repo.outcome }}`
+              저장소: `seunggi-action/${{ inputs.prefix }}-${{ inputs.name }}`
+              실행자: `${{ github.actor }}`
+              <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|Actions 실행 결과 보기>
