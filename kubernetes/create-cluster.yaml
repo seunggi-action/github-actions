@@ -11,8 +11,8 @@ iamIdentityMappings:
     groups:
       - system:masters
     username: github-actions
-    noDuplicateARNs: true 
-    
+    noDuplicateARNs: true
+
 managedNodeGroups:
   - name: managed-ng
     instanceType: t3.medium
