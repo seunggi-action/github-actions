@@ -1,4 +1,4 @@
-name: timeout 2
+name: timeout 3
 on: push
 
 jobs:
