@@ -21,7 +21,7 @@ jobs:
               echo level=$keyword >> $GITHUB_OUTPUT
             fi
           done
-      - nme: get output
+      - name: get output
         run: |
           echo ${{ steps.get-keyword.outputs.level }}
 
